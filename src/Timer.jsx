@@ -16,6 +16,10 @@ export default Timer;
 
 Timer.propTypes = {
   id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   children: PropTypes.node.isRequired,
+};
+
+Timer.defaultProps = {
+  label: '',
 };

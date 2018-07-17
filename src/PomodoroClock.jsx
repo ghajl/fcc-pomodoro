@@ -2,6 +2,9 @@ import React from 'react';
 import Control from './Control';
 import Timer from './Timer';
 
+const formatNumber = num => `0${num}`.slice(-2);
+
+
 export default class PomodoroClock extends React.Component {
   minTime = 1;
 
@@ -24,20 +27,25 @@ export default class PomodoroClock extends React.Component {
     sessionLength: 25,
   };
 
-  formatNumber = num => `0${num}`.slice(-2);
-
   initialState = {
     breakLength: this.initialTimes.breakLength,
     sessionLength: this.initialTimes.sessionLength,
     status: this.status.session,
-    minLeft: this.formatNumber(this.initialTimes.sessionLength),
-    secLeft: this.formatNumber(0),
+    minLeft: formatNumber(this.initialTimes.sessionLength),
+    secLeft: formatNumber(0),
     isTicking: false,
     playButtonLabel: this.playButtonLabel.start,
     sessionStarted: false,
   };
 
   state = this.initialState;
+
+
+  setTimerValues = (minutes, seconds, status) => {
+    const minLeft = formatNumber(minutes);
+    const secLeft = formatNumber(seconds);
+    this.setState({ minLeft, secLeft, status });
+  }
 
   handleBreakDecrementClick = () => {
     const { breakLength } = this.state;
@@ -64,7 +72,7 @@ export default class PomodoroClock extends React.Component {
         if (!sessionStarted) {
           return {
             sessionLength: prevState.sessionLength - 1,
-            minLeft: this.formatNumber(prevState.sessionLength - 1),
+            minLeft: formatNumber(prevState.sessionLength - 1),
           };
         }
         return {
@@ -81,7 +89,7 @@ export default class PomodoroClock extends React.Component {
         if (!sessionStarted) {
           return {
             sessionLength: prevState.sessionLength + 1,
-            minLeft: this.formatNumber(prevState.sessionLength + 1),
+            minLeft: formatNumber(prevState.sessionLength + 1),
           };
         }
         return {
@@ -114,21 +122,19 @@ export default class PomodoroClock extends React.Component {
   }
 
   run = () => {
-    let {
-      minLeft, secLeft, status,
-    } = this.state;
     const {
-      breakLength, sessionLength,
+      minLeft, secLeft, status, breakLength, sessionLength,
     } = this.state;
+    let newStatus = status;
     let minutes = Number.parseInt(minLeft, 10);
     let seconds = Number.parseInt(secLeft, 10);
     if (seconds === 0) {
       if (minutes === 0) {
         if (status === this.status.session) {
-          status = this.status.break;
+          newStatus = this.status.break;
           minutes = breakLength;
         } else {
-          status = this.status.session;
+          newStatus = this.status.session;
           minutes = sessionLength;
         }
       } else {
@@ -138,9 +144,7 @@ export default class PomodoroClock extends React.Component {
     } else {
       seconds -= 1;
     }
-    minLeft = this.formatNumber(minutes);
-    secLeft = this.formatNumber(seconds);
-    this.setState({ minLeft, secLeft, status });
+    this.setTimerValues(minutes, seconds, newStatus);
   }
 
   handleReset = () => {
@@ -179,6 +183,10 @@ export default class PomodoroClock extends React.Component {
         <button id="reset" type="button" onClick={this.handleReset}>
           Reset
         </button>
+        <div id="clock">
+          <div id="circle" />
+          <div id="cone" />
+        </div>
       </div>
     );
   }

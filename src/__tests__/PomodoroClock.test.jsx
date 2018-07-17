@@ -2,6 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import PomodoroClock from '../PomodoroClock';
+import Control from '../Control';
 
 describe('PomodoroClock', () => {
   const wrapper = mount(<PomodoroClock />);
@@ -60,10 +61,40 @@ describe('PomodoroClock', () => {
     expect(elem.length).toEqual(1);
   });
 
-  it('the value in #time-left should always be displayed in mm:ss format', () => {
+  it('the default value in #time-left should be displayed in mm:ss format', () => {
     const elem = wrapper.find('#time-left');
     const timeLeft = elem.text();
-    const re = /\d\d:\d\d/;
+    const re = /^\d\d:\d\d$/;
     expect(re.test(timeLeft)).toBeTruthy();
+  });
+
+  it('a specific value in #time-left should be displayed in mm:ss format', () => {
+    const re = /^\d\d:\d\d$/;
+    const minutes = 0;
+    const seconds = 1;
+    wrapper.instance().setTimerValues(minutes, seconds);
+    const elem = wrapper.find('#time-left');
+    const timeLeft = elem.text();
+    expect(re.test(timeLeft)).toBeTruthy();
+  });
+
+  it('renders a clickable element with id="start_stop"', () => {
+    const elem = wrapper.find('#start_stop');
+    expect(elem.prop('onClick')).toBeFunction();
+  });
+
+  it('renders a clickable element with id="reset"', () => {
+    const elem = wrapper.find('#reset');
+    expect(elem.prop('onClick')).toBeFunction();
+  });
+
+  it('has a Control element with id="break"', () => {
+    const elem = wrapper.find(Control);
+    expect(elem.someWhere(n => n.prop('id') === 'break')).toBeTruthy();
+  });
+
+  it('has a Control element with id="session"', () => {
+    const elem = wrapper.find(Control);
+    expect(elem.someWhere(n => n.prop('id') === 'session')).toBeTruthy();
   });
 });
