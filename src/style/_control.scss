@@ -1,0 +1,37 @@
+.control {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  line-height: 1;
+  @media screen and (min-width: 360px) {
+    min-width: 170px;
+    width: 50%;
+    font-size: 1.2rem;
+  }
+  
+  .duration {
+    display: inline-block;
+    // margin: 6px 6px;
+    height: 20px;
+    width: 2rem;
+    line-height: 20px;
+    // padding: 4px 0 4px;
+  }
+  .control-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+button.controlButton {
+  width: 40px;
+  height: 20px;
+  line-height: 1;
+  padding: 4px 0 4px;
+  color: white;
+}

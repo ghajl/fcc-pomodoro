@@ -4,6 +4,9 @@ import Timer from './Timer';
 
 const formatNumber = num => `0${num}`.slice(-2);
 
+// const rotateCone = (a, b) => {
+
+// };
 
 export default class PomodoroClock extends React.Component {
   minTime = 1;
@@ -156,36 +159,42 @@ export default class PomodoroClock extends React.Component {
     const {
       breakLength, sessionLength, minLeft, secLeft, status, playButtonLabel,
     } = this.state;
+    const playButtonStyle = playButtonLabel === this.playButtonLabel.start
+      ? { color: '#b0f442' }
+      : { color: '#ffa0a0' };
     return (
       <div id="clock-wrapper">
-        <Control
-          id="break"
-          label="Break Length"
-          onIncrementClick={this.handleBreakIncrementClick}
-          onDecrementClick={this.handleBreakDecrementClick}
-        >
-          {breakLength}
-        </Control>
-        <Control
-          id="session"
-          label="Session Length"
-          onIncrementClick={this.handleSessionIncrementClick}
-          onDecrementClick={this.handleSessionDecrementClick}
-        >
-          {sessionLength}
-        </Control>
+        <div id="controls-wrapper">
+          <Control
+            id="break"
+            label="Break Length"
+            onIncrementClick={this.handleBreakIncrementClick}
+            onDecrementClick={this.handleBreakDecrementClick}
+          >
+            {breakLength}
+          </Control>
+          <Control
+            id="session"
+            label="Session Length"
+            onIncrementClick={this.handleSessionIncrementClick}
+            onDecrementClick={this.handleSessionDecrementClick}
+          >
+            {sessionLength}
+          </Control>
+        </div>
+        <div id="timer-label">
+          {status}
+        </div>
         <Timer id="timer" label={status}>
           {`${minLeft}:${secLeft}`}
         </Timer>
-        <button id="start_stop" type="button" onClick={this.handlePlayClick}>
-          {playButtonLabel}
-        </button>
-        <button id="reset" type="button" onClick={this.handleReset}>
-          Reset
-        </button>
-        <div id="clock">
-          <div id="circle" />
-          <div id="cone" />
+        <div className="bottom-controls-wrapper">
+          <button id="start_stop" type="button" onClick={this.handlePlayClick} style={playButtonStyle}>
+            {playButtonLabel}
+          </button>
+          <button id="reset" type="button" onClick={this.handleReset}>
+            Reset
+          </button>
         </div>
       </div>
     );

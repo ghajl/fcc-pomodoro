@@ -1,0 +1,100 @@
+html, body {
+  height: 100%;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0; 
+  background: #55585E;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+#root {
+  height: 100%;
+
+}
+
+#controls-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+#clock-wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  padding-top: 40px;
+  margin: auto;
+
+  @media screen and (min-width: 360px) {
+    width: 360px;
+  }
+  @media screen and (min-width: 860px) {
+    width: 500px;
+  }
+}
+
+#timer-label {
+  color: #149DA9;
+  font-family: 'Roboto', sans-serif;
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+button {
+  margin: 6px;
+  background: #8f959e;
+  border-radius: 3px;
+  text-decoration: none;
+  outline: none;
+  transition: transform 150ms ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  border: none;
+  box-shadow: inset 0px 0px 3px #eee;
+  font-family: 'Roboto', sans-serif;
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+button#start_stop {
+  width: 80px;
+  height: 40px;
+  // color: white;
+  margin: 20px;
+  text-transform: uppercase;
+}
+
+button#reset {
+  width: 60px;
+  height: 30px;
+  color: #cecece;
+  margin: 20px;
+  text-transform: uppercase; 
+}
+
+.bottom-controls-wrapper {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 360px) {
+  @include clockface-styling($clockface-radius: 100px);
+}
+@media screen and (min-width: 360px) {
+  @include clockface-styling($clockface-radius: 150px);
+}
+@media screen and (min-width: 860px) {
+  @include clockface-styling($clockface-radius: 170px);
+}

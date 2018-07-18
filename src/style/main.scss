@@ -1,41 +1,5 @@
-#circle {
-  // position: absolute;
-  background: red;
-  width: 100%;
-  height: 100%;
-  
-  border-radius: 100%;
-}
-
-#cone {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%);
-  width: 0;
-  height: 0;
-  border-left: 200px solid transparent;
-  border-right: 200px solid transparent;
-  border-top: 60px solid green;
-
-}
-
-#clock {
-  overflow: hidden;
-  margin-top: 20px;
-  position: relative;
-  width: 120px;
-  height: 120px;
-
-  &::after {
-    content:'';
-    position: absolute;
-    top: -120px;
-    left: -120px;
-    border-radius: 100%;  
-    width: 120px;
-    height: 120px;
-    border: 120px solid white;
-  }
-}
-
+@import "variables.scss";
+@import "control.scss";
+@import "timer.scss";
+@import "clockface.scss";
+@import "global.scss";

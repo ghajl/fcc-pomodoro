@@ -1,0 +1,20 @@
+#timer-wrapper {
+  position: relative;
+}
+
+#time-left {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3.4rem;
+  color: #281C49;
+  @media screen and (min-width: 360px) {
+    font-size: 4rem;
+  }
+  @media screen and (min-width: 860px) {
+    font-size: 5rem;
+  }
+  line-height: 1;
+  font-family: 'Oxygen Mono', monospace;
+}
