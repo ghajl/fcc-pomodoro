@@ -17,36 +17,37 @@ body {
 
 #root {
   height: 100%;
-
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 1023px) and (orientation: landscape) {
+    align-items: flex-start;
+  }
 }
 
-#controls-wrapper {
-  width: 100%;
-  position: relative;
-}
+
 
 #clock-wrapper {
   display: flex;
   align-items: center;
   flex-direction: column;
   position: relative;
-  padding-top: 40px;
   margin: auto;
 
   @media screen and (min-width: 360px) {
     width: 360px;
   }
-  @media screen and (min-width: 860px) {
+  @media screen and (min-width: 768px) {
     width: 500px;
+  }
+  @media screen and (max-width: 1023px) and (orientation: landscape) {
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    width: 90%;
+    padding-bottom: 10px;
   }
 }
 
-#timer-label {
-  color: #149DA9;
-  font-family: 'Roboto', sans-serif;
-  font-size: 3rem;
-  margin-bottom: 20px;
-}
 
 button {
   margin: 6px;
@@ -64,37 +65,4 @@ button {
   &:active {
     transform: scale(0.97);
   }
-}
-
-button#start_stop {
-  width: 80px;
-  height: 40px;
-  // color: white;
-  margin: 20px;
-  text-transform: uppercase;
-}
-
-button#reset {
-  width: 60px;
-  height: 30px;
-  color: #cecece;
-  margin: 20px;
-  text-transform: uppercase; 
-}
-
-.bottom-controls-wrapper {
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-}
-
-@media screen and (max-width: 360px) {
-  @include clockface-styling($clockface-radius: 100px);
-}
-@media screen and (min-width: 360px) {
-  @include clockface-styling($clockface-radius: 150px);
-}
-@media screen and (min-width: 860px) {
-  @include clockface-styling($clockface-radius: 170px);
 }

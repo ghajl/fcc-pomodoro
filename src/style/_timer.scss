@@ -9,12 +9,16 @@
   transform: translate(-50%, -50%);
   font-size: 3.4rem;
   color: #281C49;
-  @media screen and (min-width: 360px) {
-    font-size: 4rem;
-  }
-  @media screen and (min-width: 860px) {
-    font-size: 5rem;
-  }
   line-height: 1;
   font-family: 'Oxygen Mono', monospace;
+
+  @media (min-width: 481px) and (max-width: 767px) {
+    font-size: 4rem;
+  }
+  @media (min-width: 768px) {
+    font-size: 5rem;
+  }
+  @media (min-width: 481px) and (max-width: 1023px) and (orientation: landscape) {
+    font-size: 3.4rem;
+  }
 }

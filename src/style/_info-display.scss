@@ -1,0 +1,22 @@
+.info-display-wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  @media screen and (max-width: 1023px) and (orientation: landscape) {
+    width: 40%;
+  }
+}
+
+#timer-label {
+  color: #149DA9;
+  font-family: 'Roboto', sans-serif;
+  font-size: 3rem;
+  margin-bottom: 20px;
+  line-height: 1;
+  @media screen and (min-width: 768px) {
+    font-size: 4rem;
+  }
+  @media screen and (min-width: 667px) and (max-width: 1023px) and (orientation: landscape) {
+    font-size: 3.2rem;
+  }
+}

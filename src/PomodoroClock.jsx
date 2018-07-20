@@ -4,10 +4,6 @@ import Timer from './Timer';
 
 const formatNumber = num => `0${num}`.slice(-2);
 
-// const rotateCone = (a, b) => {
-
-// };
-
 export default class PomodoroClock extends React.Component {
   minTime = 1;
 
@@ -29,6 +25,8 @@ export default class PomodoroClock extends React.Component {
     breakLength: 5,
     sessionLength: 25,
   };
+
+  audioRef = React.createRef();
 
   initialState = {
     breakLength: this.initialTimes.breakLength,
@@ -114,6 +112,11 @@ export default class PomodoroClock extends React.Component {
     }
   }
 
+  playSound = () => {
+    this.audioRef.current.currentTime = 0;
+    this.audioRef.current.play();
+  }
+
   startCountdown = () => {
     this.interval = setInterval(this.run, 1000);
     this.setState({ isTicking: true, playButtonLabel: this.playButtonLabel.stop });
@@ -145,6 +148,9 @@ export default class PomodoroClock extends React.Component {
         minutes -= 1;
       }
     } else {
+      if (minutes === 0 && seconds === 1) {
+        this.playSound();
+      }
       seconds -= 1;
     }
     this.setTimerValues(minutes, seconds, newStatus);
@@ -152,6 +158,7 @@ export default class PomodoroClock extends React.Component {
 
   handleReset = () => {
     clearInterval(this.interval);
+    this.audioRef.current.currentTime = 0;
     this.setState(this.initialState);
   }
 
@@ -164,7 +171,7 @@ export default class PomodoroClock extends React.Component {
       : { color: '#ffa0a0' };
     return (
       <div id="clock-wrapper">
-        <div id="controls-wrapper">
+        <div id="menu-controls-wrapper">
           <Control
             id="break"
             label="Break Length"
@@ -182,13 +189,15 @@ export default class PomodoroClock extends React.Component {
             {sessionLength}
           </Control>
         </div>
-        <div id="timer-label">
-          {status}
+        <div className="info-display-wrapper">
+          <div id="timer-label">
+            {status}
+          </div>
+          <Timer id="timer" label={status}>
+            {`${minLeft}:${secLeft}`}
+          </Timer>
         </div>
-        <Timer id="timer" label={status}>
-          {`${minLeft}:${secLeft}`}
-        </Timer>
-        <div className="bottom-controls-wrapper">
+        <div className="action-controls-wrapper">
           <button id="start_stop" type="button" onClick={this.handlePlayClick} style={playButtonStyle}>
             {playButtonLabel}
           </button>
@@ -196,6 +205,14 @@ export default class PomodoroClock extends React.Component {
             Reset
           </button>
         </div>
+        <audio
+          id="beep"
+          ref={this.audioRef}
+          preload="auto"
+          src="static/bell.mp3"
+        >
+          Your browser does not support the audio element.
+        </audio>
       </div>
     );
   }

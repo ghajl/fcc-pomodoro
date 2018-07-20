@@ -1,0 +1,15 @@
+@import "variables.scss";
+
+#menu-controls-wrapper {
+  width: 100%;
+  position: relative;
+  @media screen and (max-width: 1023px) and (orientation: landscape) {
+    width: 30%;
+    bottom: $base-clockface-radius;
+    transform: translate(0, 40%);
+    text-align:center;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
+    bottom: $base-clockface-radius * 1.3;
+  }
+}

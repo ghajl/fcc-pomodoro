@@ -1,6 +1,7 @@
+@import "variables.scss";
+
 @mixin clockface-styling($clockface-radius: 100px) {
   #circle {
-    // position: absolute;
     background: #ABB3BF;
     width: 100%;
     height: 100%;
@@ -28,7 +29,7 @@
     position: relative;
     width: $clockface-radius * 2;
     height: $clockface-radius * 2;
-        box-sizing: content-box;
+    box-sizing: content-box;
     &::after {
       box-sizing: content-box;
       content:'';
@@ -41,4 +42,24 @@
       border: $clockface-radius solid #55585E;
     }
   }
+}
+
+
+@media screen and (max-width: 360px) {
+  @include clockface-styling($clockface-radius: $base-clockface-radius);
+}
+@media screen and (min-width: 360px) {
+  @include clockface-styling($clockface-radius: $base-clockface-radius * 1.5);
+}
+@media screen and (min-width: 768px) {
+  @include clockface-styling($clockface-radius: $base-clockface-radius * 2);
+}
+@media screen and (min-width: 481px) and (max-width: 767px)  and (orientation: landscape) {
+  @include clockface-styling($clockface-radius: $base-clockface-radius);
+}
+@media screen and (min-width: 768px) and (max-width: 1023px)  and (orientation: landscape) {
+  @include clockface-styling($clockface-radius: $base-clockface-radius * 1.3);
+}
+@media screen and (min-width: 1024px)  and (orientation: landscape) {
+  @include clockface-styling($clockface-radius: $base-clockface-radius * 1.5);
 }
