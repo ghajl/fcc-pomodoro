@@ -1,6 +1,7 @@
 import React from 'react';
 import Control from './Control';
 import Timer from './Timer';
+import Clockface from './Clockface';
 
 const formatNumber = num => `0${num}`.slice(-2);
 
@@ -9,7 +10,7 @@ export default class PomodoroClock extends React.Component {
 
   maxTime = 60;
 
-  interval = null;
+  baseInterval = 50;
 
   status = {
     session: 'Session',
@@ -28,6 +29,12 @@ export default class PomodoroClock extends React.Component {
 
   audioRef = React.createRef();
 
+  canvasRef = React.createRef();
+
+  clockfaceWidth = 400;
+
+  clockfaceHeight = 400;
+
   initialState = {
     breakLength: this.initialTimes.breakLength,
     sessionLength: this.initialTimes.sessionLength,
@@ -39,13 +46,36 @@ export default class PomodoroClock extends React.Component {
     sessionStarted: false,
   };
 
+
   state = this.initialState;
 
+  componentWillMount() {
+    this.setState(
+      {
+        screen: {
+          width: window.innerWidth,
+          height: window.innerHeight,
+          ratio: window.devicePixelRatio || 1,
+        },
+      },
+    );
+  }
+
+  componentDidMount() {
+    const { screen } = this.state;
+    const ratio = screen ? screen.ratio : window.devicePixelRatio || 1;
+    this.clockface = new Clockface(this.canvasRef, this.clockfaceWidth, this.clockfaceHeight, ratio);
+    this.clockface.init();
+  }
 
   setTimerValues = (minutes, seconds, status) => {
     const minLeft = formatNumber(minutes);
     const secLeft = formatNumber(seconds);
-    this.setState({ minLeft, secLeft, status });
+    this.setState({ minLeft, secLeft, status }, () => {
+      if (minLeft === '00' && secLeft === '00') {
+        this.playSound();
+      }
+    });
   }
 
   handleBreakDecrementClick = () => {
@@ -101,8 +131,12 @@ export default class PomodoroClock extends React.Component {
   };
 
   handlePlayClick = () => {
-    const { isTicking, sessionStarted } = this.state;
+    const { isTicking, sessionStarted, sessionLength } = this.state;
     if (!sessionStarted) {
+      this.clockfaceTicks = sessionLength;
+      this.clockfaceTicksCount = this.clockfaceTicks;
+      this.ticksSecond = 1000 / this.baseInterval;
+      this.timerTicksCount = this.ticksSecond;
       this.setState({ sessionStarted: true });
     }
     if (isTicking) {
@@ -118,16 +152,29 @@ export default class PomodoroClock extends React.Component {
   }
 
   startCountdown = () => {
-    this.interval = setInterval(this.run, 1000);
+    this.animation = setInterval(this.run, this.baseInterval);
     this.setState({ isTicking: true, playButtonLabel: this.playButtonLabel.stop });
   }
 
   stopCountdown = () => {
-    clearInterval(this.interval);
+    clearInterval(this.animation);
     this.setState({ isTicking: false, playButtonLabel: this.playButtonLabel.start });
   }
 
   run = () => {
+    this.timerTicksCount -= 1;
+    this.clockfaceTicksCount -= 1;
+    if (this.timerTicksCount === 0) {
+      this.timerTicksCount = this.ticksSecond;
+      this.digitsChange();
+    }
+    if (this.clockfaceTicksCount === 0) {
+      this.clockfaceTicksCount = this.clockfaceTicks;
+      this.clockface.drawClockProgress();
+    }
+  }
+
+  digitsChange = () => {
     const {
       minLeft, secLeft, status, breakLength, sessionLength,
     } = this.state;
@@ -137,27 +184,36 @@ export default class PomodoroClock extends React.Component {
     if (seconds === 0) {
       if (minutes === 0) {
         if (status === this.status.session) {
-          newStatus = this.status.break;
-          minutes = breakLength;
+          minutes = breakLength - 1;
         } else {
-          newStatus = this.status.session;
-          minutes = sessionLength;
+          minutes = sessionLength - 1;
         }
+        seconds = 59;
       } else {
         seconds = 59;
         minutes -= 1;
       }
     } else {
-      if (minutes === 0 && seconds === 1) {
-        this.playSound();
+      if (seconds === 1 && minutes === 0) {
+        if (status === this.status.session) {
+          newStatus = this.status.break;
+          this.clockfaceTicks = breakLength;
+        } else {
+          newStatus = this.status.session;
+          this.clockfaceTicks = sessionLength;
+        }
       }
       seconds -= 1;
     }
     this.setTimerValues(minutes, seconds, newStatus);
   }
 
+
   handleReset = () => {
-    clearInterval(this.interval);
+    clearInterval(this.animation);
+    this.clockface.init();
+    this.clockfaceTicks = this.initialState.sessionLength;
+    this.clockfaceTicksCount = this.clockfaceTicks;
     this.audioRef.current.currentTime = 0;
     this.setState(this.initialState);
   }
@@ -193,7 +249,7 @@ export default class PomodoroClock extends React.Component {
           <div id="timer-label">
             {status}
           </div>
-          <Timer id="timer" label={status}>
+          <Timer id="timer" canvasRef={this.canvasRef}>
             {`${minLeft}:${secLeft}`}
           </Timer>
         </div>

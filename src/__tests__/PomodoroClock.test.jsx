@@ -1,20 +1,11 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import sinon from 'sinon';
+// import sinon from 'sinon';
 import PomodoroClock from '../PomodoroClock';
 import Control from '../Control';
 
 describe('PomodoroClock', () => {
   const wrapper = mount(<PomodoroClock />);
-  it('renders #break-label', () => {
-    const elem = wrapper.find('#break-label');
-    expect(elem.length).toEqual(1);
-  });
-
-  it('#break-label contains string "Break Length"', () => {
-    const elem = wrapper.find('#break-label');
-    expect(elem.text()).toEqual('Break Length');
-  });
 
   it('renders #session-label', () => {
     const elem = wrapper.find('#session-label');
@@ -26,17 +17,17 @@ describe('PomodoroClock', () => {
     expect(elem.text()).toEqual('Session Length');
   });
 
-  it('renders #break-length', () => {
+  it('renders an element with id="break-length"', () => {
     const elem = wrapper.find('#break-length');
     expect(elem.length).toEqual(1);
   });
 
-  it('#break-length shows value of 5', () => {
+  it('#break-length by default displays the value of 5', () => {
     const elem = wrapper.find('#break-length');
     expect(elem.text()).toEqual('5');
   });
 
-  it('renders #session-length', () => {
+  it('renders an element with id="session-length"', () => {
     const elem = wrapper.find('#session-length');
     expect(elem.length).toEqual(1);
   });
@@ -46,7 +37,7 @@ describe('PomodoroClock', () => {
     expect(elem.text()).toEqual('25');
   });
 
-  it('renders #timer-label', () => {
+  it('renders an element with id="timer-label"', () => {
     const elem = wrapper.find('#timer-label');
     expect(elem.length).toEqual(1);
   });
@@ -56,7 +47,7 @@ describe('PomodoroClock', () => {
     expect(elem.text()).toEqual('Session');
   });
 
-  it('renders #time-left', () => {
+  it('renders an element with id="time-left"', () => {
     const elem = wrapper.find('#time-left');
     expect(elem.length).toEqual(1);
   });
@@ -88,12 +79,12 @@ describe('PomodoroClock', () => {
     expect(elem.prop('onClick')).toBeFunction();
   });
 
-  it('has a Control element with id="break"', () => {
+  it('contains a Control element with id="break"', () => {
     const elem = wrapper.find(Control);
     expect(elem.someWhere(n => n.prop('id') === 'break')).toBeTruthy();
   });
 
-  it('has a Control element with id="session"', () => {
+  it('contains a Control element with id="session"', () => {
     const elem = wrapper.find(Control);
     expect(elem.someWhere(n => n.prop('id') === 'session')).toBeTruthy();
   });
