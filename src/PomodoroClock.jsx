@@ -184,9 +184,9 @@ export default class PomodoroClock extends React.Component {
     if (seconds === 0) {
       if (minutes === 0) {
         if (status === this.status.session) {
-          minutes = breakLength - 1;
-        } else {
           minutes = sessionLength - 1;
+        } else {
+          minutes = breakLength - 1;
         }
         seconds = 59;
       } else {
