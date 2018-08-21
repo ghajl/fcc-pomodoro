@@ -166,15 +166,15 @@ export default class PomodoroClock extends React.Component {
     this.clockfaceTicksCount -= 1;
     if (this.timerTicksCount === 0) {
       this.timerTicksCount = this.ticksSecond;
-      this.digitsChange();
+      this.proceedCountdown();
     }
     if (this.clockfaceTicksCount === 0) {
       this.clockfaceTicksCount = this.clockfaceTicks;
-      this.clockface.drawClockProgress();
+      this.clockface.drawDial();
     }
   }
 
-  digitsChange = () => {
+  proceedCountdown = () => {
     const {
       minLeft, secLeft, status, breakLength, sessionLength,
     } = this.state;

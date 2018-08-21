@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Clockface from './Clockface';
 
 const Timer = ({ id, canvasRef, children }) => (
   <div id={`${id}-wrapper`}>
@@ -17,6 +16,6 @@ export default Timer;
 
 Timer.propTypes = {
   id: PropTypes.string.isRequired,
-  canvasRef: PropTypes.string.isRequired,
+  canvasRef: PropTypes.shape({}).isRequired,
   children: PropTypes.node.isRequired,
 };

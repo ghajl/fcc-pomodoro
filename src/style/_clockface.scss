@@ -1,17 +1,17 @@
 @import "variables.scss";
 
 @mixin clockface-styling($clockface-radius: 100px) {
-  #circle {
-    width: 100%;
-    height: 100%;
-    box-sizing: content-box;
-  }
-
   #clock {
     position: relative;
     width: $clockface-radius * 2;
     height: $clockface-radius * 2;
     box-sizing: content-box;
+
+    #circle {
+      width: 100%;
+      height: 100%;
+      box-sizing: content-box;
+    }
   }
 }
 
