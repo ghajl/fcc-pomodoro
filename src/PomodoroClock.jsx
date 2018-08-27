@@ -179,8 +179,8 @@ export default class PomodoroClock extends React.Component {
       minLeft, secLeft, status, breakLength, sessionLength,
     } = this.state;
     let newStatus = status;
-    let minutes = Number.parseInt(minLeft, 10);
-    let seconds = Number.parseInt(secLeft, 10);
+    let minutes = parseInt(minLeft, 10);
+    let seconds = parseInt(secLeft, 10);
     if (seconds === 0) {
       if (minutes === 0) {
         if (status === this.status.session) {
